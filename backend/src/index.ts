@@ -16,14 +16,8 @@ const server = http.createServer(app);
 
 initSocket(server);
 
-const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:3000').split(',').map(s => s.trim());
-app.use(cors({
-  origin: (origin, cb) => {
-    if (!origin || allowedOrigins.some(o => origin.startsWith(o))) return cb(null, true);
-    cb(new Error('Not allowed by CORS'));
-  },
-  credentials: true,
-}));
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
