@@ -36,7 +36,7 @@ app.use('/api/stats', statsRoutes);
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
 mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/vedaai')
+  .connect(process.env.MONGODB_URL || 'mongodb://127.0.0.1:27017/vedaai')
   .then(() => {
     console.log('MongoDB connected');
     server.listen(process.env.PORT || 4000, () =>

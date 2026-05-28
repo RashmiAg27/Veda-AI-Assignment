@@ -150,7 +150,7 @@ Backend API: http://localhost:4000
 
 ```
 PORT=4000
-MONGODB_URI=mongodb://localhost:27017/vedaai
+MONGODB_URL=mongodb://localhost:27017/vedaai
 REDIS_URL=redis://localhost:6379
 ANTHROPIC_API_KEY=your_key_here
 FRONTEND_URL=http://localhost:3000
