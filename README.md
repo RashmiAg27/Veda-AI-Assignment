@@ -9,8 +9,7 @@ The goal of the assignment was to design and develop a production-ready system w
 I implemented the complete full-stack workflow including frontend, backend APIs, AI integration, realtime updates, PDF generation, background workers, and deployment-ready architecture.
 
 🔗 Project Links
-Repository:
-https://github.com/RashmiAg27/Veda-AI-Assignment
+Repository: https://github.com/RashmiAg27/Veda-AI-Assignment
 Deployed Application: https://veda-ai-assignment-two.vercel.app/
 ---
 
