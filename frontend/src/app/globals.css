@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-red: #D32F2F;
+  --color-brand-red-light: #FFF5F5;
+  --color-brand-red-hover: #B71C1C;
+  --color-sidebar: #FFFFFF;
+  --color-page: #F5F5F5;
+  --color-card: #FFFFFF;
+  --color-border: #E0E0E0;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #757575;
+  --font-sans: Inter, system-ui, sans-serif;
+}
+
+:root {
+  --sidebar-width: 304px;
+  --header-height: 56px;
+  --sidebar-bg: #FFFFFF;
+}
+
+html.dark {
+  --sidebar-bg: #1A1D27;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #F5F5F5;
+  color: #1A1A1A;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #E0E0E0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #BDBDBD; }
+
+/* Smooth transitions */
+.transition-colors { transition-property: color, background-color, border-color; transition-duration: 150ms; }
