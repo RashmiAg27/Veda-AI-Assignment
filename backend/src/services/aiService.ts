@@ -116,7 +116,7 @@ Return ONLY this JSON (no markdown, no code fences):
   }
 }`;
 
-  const model = getGenAI().getGenerativeModel({ model: 'gemini-3.5-flash' });
+  const model = getGenAI().getGenerativeModel({ model: 'gemini-3.1-flash-lite' });
   const result = await model.generateContent(prompt);
   const rawText = result.response.text();
 

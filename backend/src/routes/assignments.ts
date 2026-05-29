@@ -4,6 +4,7 @@ import { z } from 'zod';
 import Assignment from '../models/Assignment';
 import GeneratedPaper from '../models/GeneratedPaper';
 import { processAssignment } from '../workers/paperWorker';
+import { io } from '../config/socket';
 
 const router = Router();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
@@ -64,7 +65,8 @@ router.post('/', upload.single('file'), async (req, res) => {
     setTimeout(() => processAssignment(assignmentId).catch(async (err) => {
       console.error('[Worker] failed:', err.message);
       await Assignment.findByIdAndUpdate(assignmentId, { status: 'failed' });
-    }), 800);
+      io.to(assignmentId).emit('job:update', { status: 'failed', message: err.message || 'Generation failed' });
+    }), 1500);
 
     res.status(201).json({ assignmentId, status: 'pending' });
   } catch (err) {
