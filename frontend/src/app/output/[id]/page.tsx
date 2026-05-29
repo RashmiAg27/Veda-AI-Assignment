@@ -9,11 +9,15 @@ import { useAssignmentStore } from '@/store/assignmentStore';
 import { getPaper, downloadPDF, regenerateSection } from '@/lib/api';
 import { GeneratedPaper, PaperSection, Question } from '@/types';
 
-const SECTION_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
 
-function DifficultyTag({ difficulty }: { difficulty: Question['difficulty'] }) {
-  return <span className="font-normal text-gray-500">[{difficulty}]</span>;
-}
+const SECTION_TYPE_LABELS: Record<string, string> = {
+  mcq: 'Multiple Choice Question',
+  short: 'Short Answer Question',
+  long: 'Long Answer Question',
+  diagram: 'Diagram/Graph-Based Question',
+  numerical: 'Numerical Problem',
+  truefalse: 'True/False',
+};
 
 function SectionBlock({
   section,
@@ -68,11 +72,11 @@ function SectionBlock({
         ) : (
           <motion.div key={section.title} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pt-8">
             <div className="text-center mb-4">
-              <h2 className="text-base font-bold text-[#1A1A1A]">{section.title}</h2>
+              <h2 className="text-base font-bold text-[#1A1A1A]">{section.title}{SECTION_TYPE_LABELS[section.type] ? `: ${SECTION_TYPE_LABELS[section.type]}` : ''}</h2>
             </div>
             <div className="space-y-4">
               {section.questions.map((q: Question) => (
-                <div key={q.number} className="text-sm text-[#1A1A1A] dark:text-[#F1F5F9] leading-relaxed">
+                <div key={q.number} className="text-sm text-[#1A1A1A] leading-relaxed">
                   <div className="flex items-start gap-2">
                     <span className="font-bold flex-shrink-0">{q.number}.</span>
                     <div className="flex-1">
@@ -103,10 +107,10 @@ function QuestionPaper({ paper, assignmentId, onSectionUpdate }: {
   onSectionUpdate: (sIdx: number, newSection: PaperSection) => void;
 }) {
   return (
-    <div className="bg-white dark:bg-[#363636] border border-[#E0E0E0] dark:border-[#2E3148] rounded-2xl shadow-[3px_3px_10px_rgba(0,0,0,0.08)] dark:shadow-[3px_3px_10px_rgba(0,0,0,0.4)] max-w-2xl mx-auto font-serif">
+    <div className="bg-white border border-[#E0E0E0] rounded-2xl shadow-[3px_3px_10px_rgba(0,0,0,0.08)] max-w-2xl mx-auto font-serif">
       {/* Paper header */}
-      <div className="text-center border-b border-[#E0E0E0] dark:border-[#2E3148] px-10 py-8">
-        <h1 className="text-xl font-bold text-[#1A1A1A] dark:text-[#F1F5F9] mb-1">{paper.schoolName}</h1>
+      <div className="text-center border-b border-[#E0E0E0] px-10 py-8">
+        <h1 className="text-xl font-bold text-[#1A1A1A] mb-1">{paper.schoolName}</h1>
         <div className="text-sm text-[#757575] mt-1 space-y-0.5">
           <p><span className="font-medium">Subject:</span> {paper.subject}</p>
           <p><span className="font-medium">Class:</span> {paper.className}</p>
@@ -115,7 +119,7 @@ function QuestionPaper({ paper, assignmentId, onSectionUpdate }: {
           <span>Time Allowed: {paper.timeAllowed}</span>
           <span>Maximum Marks: {paper.metadata.totalMarks}</span>
         </div>
-        <p className="text-xs text-[#757575] dark:text-[#94A3B8] italic mt-2">All questions are compulsory unless stated otherwise.</p>
+        <p className="text-xs text-[#757575] italic mt-2">All questions are compulsory unless stated otherwise.</p>
         <div className="mt-4 text-left space-y-3">
           <div className="flex items-center gap-2 text-sm">
             <span className="font-medium text-[#1A1A1A]">Name:</span>
@@ -147,15 +151,15 @@ function QuestionPaper({ paper, assignmentId, onSectionUpdate }: {
         ))}
       </div>
 
-      <div className="border-t border-[#E0E0E0] dark:border-[#2E3148] px-10 py-4 text-center">
-        <p className="text-sm italic text-[#757575] dark:text-[#94A3B8]">— End of Question Paper —</p>
+      <div className="border-t border-[#E0E0E0] px-10 py-4 text-center">
+        <p className="text-sm italic text-[#757575]">— End of Question Paper —</p>
       </div>
 
-      <div className="border-t border-[#E0E0E0] dark:border-[#2E3148] px-10 py-6">
+      <div className="border-t border-[#E0E0E0] px-10 py-6">
         <h2 className="text-base font-bold text-[#1A1A1A] text-center mb-4">Answer Key</h2>
         <div className="space-y-3">
           {paper.answerKey.map((a) => (
-            <div key={a.number} className="text-sm text-[#1A1A1A] dark:text-[#F1F5F9] leading-relaxed">
+            <div key={a.number} className="text-sm text-[#1A1A1A] leading-relaxed">
               <span className="font-bold">{a.number}.</span> {a.answer}
             </div>
           ))}

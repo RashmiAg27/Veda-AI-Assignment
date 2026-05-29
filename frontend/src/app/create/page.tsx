@@ -10,6 +10,57 @@ import { useWebSocket } from '@/hooks/useWebSocket';
 import { createAssignment } from '@/lib/api';
 import { QuestionTypeRow } from '@/types';
 
+const KNOWN_SUBJECTS = [
+  // Languages
+  'english', 'english language', 'english literature', 'english language and literature',
+  'hindi', 'hindi course a', 'hindi course b', 'sanskrit', 'french', 'german', 'spanish',
+  'urdu', 'punjabi', 'bengali', 'tamil', 'telugu', 'kannada', 'malayalam', 'marathi', 'gujarati',
+  // Mathematics
+  'mathematics', 'maths', 'math', 'mathematics standard', 'mathematics basic', 'applied mathematics', 'statistics',
+  // Sciences
+  'science', 'physics', 'chemistry', 'biology', 'biotechnology', 'environmental science', 'evs',
+  'environmental studies', 'general science',
+  // Social Sciences
+  'social science', 'social studies', 'sst', 'history', 'geography', 'political science', 'civics',
+  'economics', 'sociology', 'philosophy', 'psychology',
+  // Commerce
+  'accountancy', 'accounts', 'business studies', 'business economics',
+  // Computer & Technology
+  'computer science', 'computers', 'information technology', 'it', 'informatics practices',
+  'artificial intelligence', 'ai', 'data science',
+  // Physical & Arts
+  'physical education', 'pe', 'sports', 'yoga', 'health and physical education',
+  'art', 'drawing', 'fine arts', 'painting', 'music', 'hindustani music', 'carnatic music',
+  'dance', 'theatre', 'art and craft',
+  // Other CBSE subjects
+  'home science', 'legal studies', 'entrepreneurship', 'mass media studies',
+  'general knowledge', 'gk', 'moral science', 'value education', 'life skills',
+];
+
+function levenshtein(a: string, b: string): number {
+  const dp: number[][] = Array.from({ length: a.length + 1 }, (_, i) =>
+    Array.from({ length: b.length + 1 }, (_, j) => (i === 0 ? j : j === 0 ? i : 0))
+  );
+  for (let i = 1; i <= a.length; i++)
+    for (let j = 1; j <= b.length; j++)
+      dp[i][j] = a[i - 1] === b[j - 1]
+        ? dp[i - 1][j - 1]
+        : 1 + Math.min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
+  return dp[a.length][b.length];
+}
+
+function isValidSubject(value: string): boolean {
+  const input = value.trim().toLowerCase();
+  if (!input) return false;
+  for (const subject of KNOWN_SUBJECTS) {
+    if (input === subject) return true;
+    if (subject.includes(input) || input.includes(subject)) return true;
+    const threshold = input.length <= 5 ? 1 : input.length <= 8 ? 2 : 3;
+    if (levenshtein(input, subject) <= threshold) return true;
+  }
+  return false;
+}
+
 const QUESTION_TYPE_OPTIONS = [
   { value: 'mcq', label: 'Multiple Choice Questions' },
   { value: 'short', label: 'Short Questions' },
@@ -181,6 +232,8 @@ export default function CreatePage() {
   function validate() {
     const errs: Record<string, string> = {};
     if (!formData.subject.trim()) errs.subject = 'Subject is required';
+    else if (!isValidSubject(formData.subject)) errs.subject = 'Invalid subject name. Please enter a recognized school subject';
+    if (!formData.className.trim()) errs.className = 'Grade is required';
     if (!formData.dueDate) errs.dueDate = 'Due date is required';
     else if (new Date(formData.dueDate) <= new Date()) errs.dueDate = 'Must be a future date';
     if (formData.questionTypes.length === 0) errs.questionTypes = 'Add at least one question type';
@@ -192,6 +245,7 @@ export default function CreatePage() {
     if (!validate()) return;
     const fd = new FormData();
     fd.append('subject', formData.subject);
+    fd.append('className', formData.className);
     fd.append('instructions', formData.instructions);
     fd.append('dueDate', formData.dueDate);
 
@@ -242,15 +296,34 @@ export default function CreatePage() {
                 <p className="text-[12px] text-[#9E9E9E] dark:text-[#64748B] mt-0.5">Basic information about your assignment</p>
               </div>
 
-              {/* Subject */}
-              <div className="mb-5">
-                <label className="block text-[13px] font-medium text-[#1A1A1A] dark:text-[#E2E8F0] mb-1.5">Subject</label>
-                <input type="text" placeholder="e.g. Science, Mathematics, English"
-                  value={formData.subject}
-                  onChange={(e) => { setFormData({ subject: e.target.value }); setErrors(er => ({ ...er, subject: '' })); }}
-                  className={`w-full border rounded-lg px-3 py-2.5 text-[13px] bg-white dark:bg-[#363636] dark:text-[#F1F5F9] focus:outline-none focus:border-[#3B82F6] transition-colors placeholder:text-[#BDBDBD] dark:placeholder:text-[#64748B] ${errors.subject ? 'border-red-400' : 'border-[#E0E0E0] dark:border-[#2E3148]'}`}
-                />
-                {errors.subject && <p className="text-xs text-red-500 mt-1">{errors.subject}</p>}
+              {/* Subject + Grade */}
+              <div className="grid grid-cols-2 gap-4 mb-5">
+                <div>
+                  <label className="block text-[13px] font-medium text-[#1A1A1A] dark:text-[#E2E8F0] mb-1.5">Subject <span className="text-red-500">*</span></label>
+                  <input type="text" placeholder="e.g. Science, Mathematics"
+                    value={formData.subject}
+                    onChange={(e) => { setFormData({ subject: e.target.value }); setErrors(er => ({ ...er, subject: '' })); }}
+                    className={`w-full border rounded-lg px-3 py-2.5 text-[13px] bg-white dark:bg-[#363636] dark:text-[#F1F5F9] focus:outline-none focus:border-[#3B82F6] transition-colors placeholder:text-[#BDBDBD] dark:placeholder:text-[#64748B] ${errors.subject ? 'border-red-400' : 'border-[#E0E0E0] dark:border-[#2E3148]'}`}
+                  />
+                  {errors.subject && <p className="text-xs text-red-500 mt-1">{errors.subject}</p>}
+                </div>
+                <div>
+                  <label className="block text-[13px] font-medium text-[#1A1A1A] dark:text-[#E2E8F0] mb-1.5">Grade <span className="text-red-500">*</span></label>
+                  <div className="relative">
+                    <select
+                      value={formData.className}
+                      onChange={(e) => { setFormData({ className: e.target.value }); setErrors(er => ({ ...er, className: '' })); }}
+                      className={`w-full appearance-none border rounded-lg px-3 py-2.5 text-[13px] bg-white dark:bg-[#363636] dark:text-[#F1F5F9] focus:outline-none focus:border-[#3B82F6] transition-colors pr-8 ${errors.className ? 'border-red-400' : 'border-[#E0E0E0] dark:border-[#2E3148]'} ${!formData.className ? 'text-[#BDBDBD] dark:text-[#64748B]' : ''}`}
+                    >
+                      <option value="" disabled>Select grade</option>
+                      {['Class 1','Class 2','Class 3','Class 4','Class 5','Class 6','Class 7','Class 8','Class 9','Class 10','Class 11','Class 12'].map((g) => (
+                        <option key={g} value={g}>{g}</option>
+                      ))}
+                    </select>
+                    <svg className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#9E9E9E]" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
+                  </div>
+                  {errors.className && <p className="text-xs text-red-500 mt-1">{errors.className}</p>}
+                </div>
               </div>
 
               {/* File Upload */}

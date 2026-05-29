@@ -24,14 +24,18 @@ function buildPaperHTML(paper: IGeneratedPaper): string {
         .map(
           (q) => `
         <div class="question">
-          <span class="q-number">${q.number}.</span>
-          ${q.text}
-          ${
-            q.options && q.options.length > 0
-              ? `<ol class="options" type="a">${q.options.map((o) => `<li>${o}</li>`).join('')}</ol>`
-              : ''
-          }
-          <span class="marks">[${q.marks} Mark${q.marks !== 1 ? 's' : ''}]</span>
+          <div class="question-row">
+            <div class="question-body">
+              <span class="q-number">${q.number}.</span>
+              ${q.text}
+              ${
+                q.options && q.options.length > 0
+                  ? `<ol class="options" type="a">${q.options.map((o) => `<li>${o}</li>`).join('')}</ol>`
+                  : ''
+              }
+            </div>
+            <span class="marks">[${q.marks} Mark${q.marks !== 1 ? 's' : ''}]</span>
+          </div>
         </div>
       `
         )
@@ -58,75 +62,82 @@ function buildPaperHTML(paper: IGeneratedPaper): string {
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Times New Roman', Times, serif;
-    font-size: 10.5pt;
+    font-size: 12pt;
     color: #000;
-    padding: 18px 28px;
+    padding: 24px 36px;
     max-width: 210mm;
     margin: 0 auto;
   }
   .header {
     text-align: center;
     border-bottom: 2px solid #000;
-    padding-bottom: 6px;
-    margin-bottom: 6px;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
   }
   .header .student-fields {
     text-align: left;
   }
-  .school-name { font-size: 16pt; font-weight: bold; }
-  .subject-line { font-size: 12pt; margin-top: 3px; }
+  .school-name { font-size: 18pt; font-weight: bold; }
+  .subject-line { font-size: 13pt; margin-top: 4px; }
   .meta-row {
     display: flex;
     justify-content: space-between;
-    margin-top: 5px;
-    font-size: 10.5pt;
+    margin-top: 6px;
+    font-size: 12pt;
   }
-  .mandatory { text-align: center; font-style: italic; font-size: 10pt; margin-top: 4px; }
+  .mandatory { text-align: center; font-style: italic; font-size: 11pt; margin-top: 5px; }
   .student-info {
     display: flex;
     gap: 30px;
-    margin-top: 6px;
-    font-size: 10.5pt;
+    margin-top: 8px;
+    font-size: 12pt;
   }
   .student-info span { border-bottom: 1px solid #000; min-width: 200px; }
-  .section { margin-top: 10px; }
+  .section { margin-top: 14px; }
   .section-title {
     text-align: center;
-    font-size: 10.5pt;
+    font-size: 12pt;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
   }
   .question {
-    margin-bottom: 6px;
-    line-height: 1.35;
+    margin-bottom: 10px;
+    line-height: 1.5;
   }
-  .q-number { font-weight: bold; margin-right: 3px; }
-  .marks { float: right; font-weight: bold; font-size: 8.5pt; }
-  .options { margin-top: 2px; margin-left: 18px; }
-  .options li { margin-bottom: 1px; }
+  .question-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .question-body { flex: 1; }
+  .q-number { font-weight: bold; margin-right: 4px; }
+  .marks { font-weight: bold; font-size: 11pt; white-space: nowrap; padding-top: 1px; }
+  .options { margin-top: 4px; margin-left: 22px; }
+  .options li { margin-bottom: 3px; }
   .page-break { page-break-after: always; }
   .end-line {
     text-align: center;
-    margin-top: 10px;
-    margin-bottom: 8px;
+    margin-top: 14px;
+    margin-bottom: 10px;
     font-style: italic;
-    font-size: 9pt;
+    font-size: 11pt;
     border-top: 1px solid #000;
-    padding-top: 6px;
+    padding-top: 8px;
   }
   .answer-key-section {
     page-break-before: always;
-    margin-top: 10px;
+    margin-top: 14px;
   }
   .answer-key-title {
     text-align: center;
-    font-size: 11pt;
+    font-size: 13pt;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
-  .answer { margin-bottom: 5px; line-height: 1.3; font-size: 9pt; }
+  .answer { margin-bottom: 6px; line-height: 1.5; font-size: 11pt; }
   @media print {
-    body { padding: 18px 28px; }
+    body { padding: 24px 36px; }
     .page-break { page-break-after: always; }
     .answer-key-section { page-break-before: always; }
   }
@@ -179,7 +190,7 @@ export async function generatePDF(paper: IGeneratedPaper): Promise<Buffer> {
     const pdfBuffer = await page.pdf({
       format: 'A4',
       printBackground: true,
-      margin: { top: '10mm', bottom: '10mm', left: '10mm', right: '10mm' },
+      margin: { top: '15mm', bottom: '15mm', left: '15mm', right: '15mm' },
     });
     return Buffer.from(pdfBuffer);
   } finally {

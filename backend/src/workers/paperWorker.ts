@@ -26,6 +26,7 @@ export async function processAssignment(assignmentId: string) {
 
   const paperData = await generatePaper({
     subject: assignment.subject,
+    className: assignment.className,
     questionTypes: assignment.questionTypes,
     totalQuestions: assignment.totalQuestions,
     totalMarks: assignment.totalMarks,

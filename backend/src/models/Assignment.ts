@@ -10,6 +10,7 @@ export interface IQuestionType {
 export interface IAssignment extends Document {
   title: string;
   subject: string;
+  className: string;
   instructions: string;
   dueDate: Date;
   questionTypes: IQuestionType[];
@@ -33,6 +34,7 @@ const AssignmentSchema = new Schema<IAssignment>(
   {
     title: { type: String, required: true },
     subject: { type: String, required: true },
+    className: { type: String, required: true },
     instructions: { type: String, default: '' },
     dueDate: { type: Date, required: true },
     questionTypes: { type: [QuestionTypeSchema], required: true },

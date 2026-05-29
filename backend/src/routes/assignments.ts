@@ -11,6 +11,7 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 
 
 const CreateSchema = z.object({
   subject: z.string().min(1),
+  className: z.string().min(1),
   instructions: z.string().optional().default(''),
   dueDate: z.string().min(1),
   questionTypes: z.array(z.object({
@@ -36,6 +37,7 @@ router.post('/', upload.single('file'), async (req, res) => {
   try {
     const body = {
       subject: req.body.subject,
+      className: req.body.className,
       instructions: req.body.instructions || '',
       dueDate: req.body.dueDate,
       timeAllowed: req.body.timeAllowed || '',
@@ -47,13 +49,13 @@ router.post('/', upload.single('file'), async (req, res) => {
     const parsed = CreateSchema.safeParse(body);
     if (!parsed.success) { res.status(400).json({ error: parsed.error.flatten() }); return; }
 
-    const { subject, instructions, dueDate, questionTypes } = parsed.data;
+    const { subject, className, instructions, dueDate, questionTypes } = parsed.data;
     const totalQuestions = questionTypes.reduce((s, q) => s + q.count, 0);
     const totalMarks = questionTypes.reduce((s, q) => s + q.count * q.marksPerQuestion, 0);
 
     const assignment = await Assignment.create({
       title: `${subject} Quiz`,
-      subject, instructions,
+      subject, className, instructions,
       dueDate: new Date(dueDate),
       questionTypes, totalQuestions, totalMarks,
       status: 'pending',

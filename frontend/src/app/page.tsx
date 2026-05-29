@@ -82,11 +82,6 @@ export default function DashboardPage() {
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
-      {/* Greeting */}
-      <div className="mb-8">
-        <h1 className="text-[24px] font-bold text-[#1A1A1A] dark:text-[#F1F5F9]">{greeting()}, Rashmi Agrawal</h1>
-        <p className="text-[13px] text-[#9E9E9E] dark:text-[#94A3B8] mt-1">Delhi Public School, Bokaro Steel City</p>
-      </div>
 
       {/* Stats */}
       <div className="flex gap-4 mb-8">

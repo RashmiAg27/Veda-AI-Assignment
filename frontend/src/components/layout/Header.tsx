@@ -114,7 +114,7 @@ export default function Header() {
             </svg>
           </Link>
         ) : (
-          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#F5F5F5] dark:bg-[#2A2A2A] text-[#5F5F5F] dark:text-[#9E9E9E] flex-shrink-0">
+          <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#F5F5F5] dark:bg-[#2A2A2A] ring-1 ring-[#D0D0D0] dark:ring-[#3A3A3A] hover:scale-[1.03] hover:ring-2 hover:ring-[#A0A0A0] dark:hover:ring-[#666] hover:shadow-[0_0_6px_1px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_6px_1px_rgba(255,255,255,0.1)] transition-all duration-200 text-[#5F5F5F] dark:text-[#9E9E9E] flex-shrink-0">
             {pageIcon}
           </div>
         )}
@@ -129,7 +129,7 @@ export default function Header() {
         <button
           onClick={toggle}
           aria-label="Toggle dark mode"
-          className="w-9 h-9 flex items-center justify-center rounded-full bg-[#F5F5F5] dark:bg-[#2A2A2A] ring-1 ring-[#D0D0D0] dark:ring-[#3A3A3A] hover:bg-[#EBEBEB] dark:hover:bg-[#333] transition-colors text-[#5F5F5F] dark:text-[#9E9E9E]"
+          className="w-9 h-9 flex items-center justify-center rounded-full bg-[#F5F5F5] dark:bg-[#2A2A2A] ring-1 ring-[#D0D0D0] dark:ring-[#3A3A3A] hover:bg-[#EBEBEB] dark:hover:bg-[#333] hover:scale-[1.03] hover:ring-2 hover:ring-[#A0A0A0] dark:hover:ring-[#666] hover:shadow-[0_0_6px_1px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_6px_1px_rgba(255,255,255,0.1)] transition-all duration-200 text-[#5F5F5F] dark:text-[#9E9E9E]"
         >
           {dark ? (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -147,7 +147,7 @@ export default function Header() {
         </button>
 
         {/* Bell */}
-        <button className="relative w-9 h-9 flex items-center justify-center rounded-full bg-[#F5F5F5] dark:bg-[#2A2A2A] ring-1 ring-[#D0D0D0] dark:ring-[#3A3A3A] hover:bg-[#EBEBEB] dark:hover:bg-[#333] transition-colors text-[#5F5F5F] dark:text-[#9E9E9E]">
+        <button className="relative w-9 h-9 flex items-center justify-center rounded-full bg-[#F5F5F5] dark:bg-[#2A2A2A] ring-1 ring-[#D0D0D0] dark:ring-[#3A3A3A] hover:bg-[#EBEBEB] dark:hover:bg-[#333] hover:scale-[1.03] hover:ring-2 hover:ring-[#A0A0A0] dark:hover:ring-[#666] hover:shadow-[0_0_6px_1px_rgba(0,0,0,0.15)] dark:hover:shadow-[0_0_6px_1px_rgba(255,255,255,0.1)] transition-all duration-200 text-[#5F5F5F] dark:text-[#9E9E9E]">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
             <path d="M13.73 21a2 2 0 01-3.46 0"/>

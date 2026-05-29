@@ -143,7 +143,7 @@ export default function Sidebar() {
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all ${
                   active
                     ? 'bg-[#F4F4F5] dark:bg-[#2A2A2A] text-[#1A1A1A] dark:text-[#F5F5F5]'
-                    : 'text-[#6B6B6B] dark:text-[#B0BAC8] hover:bg-[#F7F7F8] dark:hover:bg-[#1E1E1E] hover:text-[#1A1A1A] dark:hover:text-[#F1F5F9]'
+                    : 'text-[#6B6B6B] dark:text-[#B0BAC8] hover:bg-[#F7F7F8] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F1F5F9]'
                 }`}
               >
                 <span className={active ? 'text-[#1A1A1A] dark:text-[#F5F5F5]' : 'text-[#9E9E9E] dark:text-[#666]'}>
@@ -165,16 +165,16 @@ export default function Sidebar() {
       <div className="flex flex-col gap-2">
 
         {/* Settings */}
-        <Link
-          href="/settings"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium text-[#5F5F5F] dark:text-[#B0BAC8] hover:bg-[#F5F5F5] dark:hover:bg-[#1E1E1E] hover:text-[#1A1A1A] dark:hover:text-[#F1F5F9] transition-all"
+        <button
+          type="button"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium text-[#5F5F5F] dark:text-[#B0BAC8] hover:bg-[#F5F5F5] dark:hover:bg-[#2A2A2A] hover:text-[#1A1A1A] dark:hover:text-[#F1F5F9] transition-all w-full"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#9E9E9E] dark:text-[#A0AAB8]">
             <circle cx="12" cy="12" r="3"/>
             <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
           </svg>
           Settings
-        </Link>
+        </button>
 
         {/* School profile card */}
         <div className="flex items-center gap-3 px-3 py-3 bg-[#FFF0E0] dark:bg-[#7C2D00] rounded-xl border border-[#FFCC80] dark:border-[#FF6B00] hover:shadow-md hover:scale-[1.02] transition-all duration-200 cursor-default">
